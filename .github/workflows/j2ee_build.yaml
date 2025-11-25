@@ -34,9 +34,9 @@ jobs:
         with:
           version: latest
           custom-server-id: jf-server
-          oidc-provider-name: 'github'
         env:
           JF_URL: ${{ env.JFROG_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JFROG_ACCESS_TOKEN }}
 
       - name: Configure Maven for Artifactory via JFrog CLI
         run: |
@@ -44,9 +44,9 @@ jobs:
           jf mvn-config \
             --server-id-resolve=jf-server \
             --server-id-deploy=jf-server \
-            --repo-resolve-releases="${{ env.JFROG_REPO }}" \
+            --repo-resolve-releases="maven-remote" \
             --repo-deploy-releases="${{ env.JFROG_REPO }}" \
-            --repo-resolve-snapshots="${{ env.JFROG_REPO }}" \
+            --repo-resolve-snapshots="maven-remote" \
             --repo-deploy-snapshots="${{ env.JFROG_REPO }}"
       
       - name: Test
